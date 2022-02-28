@@ -8,3 +8,9 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+data "aws_ami" "frontend-ami" {
+  owners           = ["342998638422"]
+  most_recent      = true
+  name_regex       = "^frontend-${var.ENV}"
+}
+
