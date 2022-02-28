@@ -4,7 +4,7 @@ resource "aws_launch_template" "launch_template" {
   image_id = data.aws_ami.frontend-ami.id
   instance_type = "t2.micro"
   key_name = "devops"
-  vpc_security_group_ids = ["sg-12345678"]
+  vpc_security_group_ids = [aws_security_group.allow-frontend-instance.id]
   monitoring {
     enabled = true
   }
@@ -31,8 +31,8 @@ resource "aws_autoscaling_group" "asg" {
   force_delete              = true
   vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS, count.index)]
   launch_template {
-    id      = aws_launch_template.launch_template.id
-    version = "$Latest"
+    id                      = aws_launch_template.launch_template.id
+    version                 = "$Latest"
   }
   tag {
     key                 = "Name"
