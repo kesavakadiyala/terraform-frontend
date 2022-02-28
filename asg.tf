@@ -31,7 +31,7 @@ resource "aws_autoscaling_group" "asg" {
   force_delete              = true
   vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS, count.index)]
   launch_template {
-    id                      = aws_launch_template.launch_template.id
+    id                      = element(aws_launch_template.launch_template.id, count.index)
     version                 = "$Latest"
   }
   tag {
