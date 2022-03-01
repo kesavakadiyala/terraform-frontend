@@ -2,8 +2,8 @@ resource "aws_launch_template" "launch_template" {
   count = length(var.availability-zones)
   name = "${var.component}-template-${var.availability-zones[count.index]}"
   image_id = data.aws_ami.frontend-ami.id
-  instance_type = "t2.micro"
-  key_name = "devops"
+  instance_type = var.INSTANCE_TYPE
+  key_name = var.KEYPAIR_NAME
   vpc_security_group_ids = [aws_security_group.allow-frontend-instance.id]
   monitoring {
     enabled = true
@@ -14,7 +14,7 @@ resource "aws_launch_template" "launch_template" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "${var.component}-${var.ENV}-template",
+      Name = "${var.component}-${var.ENV}-template-${var.availability-zones[count.index]}-${count.index}",
       Zone = var.availability-zones[count.index]
     }
   }
