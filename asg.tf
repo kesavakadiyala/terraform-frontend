@@ -4,7 +4,7 @@ resource "aws_launch_template" "launch_template" {
   image_id = data.aws_ami.frontend-ami.id
   instance_type = var.INSTANCE_TYPE
   key_name = var.KEYPAIR_NAME
-  vpc_security_group_ids = [aws_security_group.allow-frontend-instance.id]
+  vpc_security_group_ids = [aws_security_group.allow-frontend-template-instance.id]
   monitoring {
     enabled = true
   }

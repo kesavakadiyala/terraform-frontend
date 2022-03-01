@@ -1,4 +1,4 @@
-resource "aws_security_group" "allow-frontend-instance" {
+resource "aws_security_group" "allow-frontend-template-instance" {
   name        = "allow-frontend-instance"
   description = "allow-frontend-instance"
   vpc_id      = data.terraform_remote_state.vpc.outputs.VPC_ID
