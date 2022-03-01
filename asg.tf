@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   count = length(var.availability-zones)
-  name = "${var.component}-${var.availability-zones[count.index]}"
+  name = "${var.component}-template-${var.availability-zones[count.index]}"
   image_id = data.aws_ami.frontend-ami.id
   instance_type = "t2.micro"
   key_name = "devops"
@@ -22,7 +22,7 @@ resource "aws_launch_template" "launch_template" {
 
 resource "aws_autoscaling_group" "asg" {
   count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET)
-  name                      = "frontend"
+  name                      = "${var.component}-asg-${var.availability-zones[count.index]}"
   max_size                  = 2
   min_size                  = 2
   health_check_grace_period = 300
@@ -36,7 +36,7 @@ resource "aws_autoscaling_group" "asg" {
   }
   tag {
     key                 = "Name"
-    value               = "Frontend"
+    value               = "${var.component}-asg-${var.availability-zones[count.index]}"
     propagate_at_launch = false
   }
 }
