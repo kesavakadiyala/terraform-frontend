@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   count = length(var.availability-zones)
-  name = "frontend"
+  name = var.component
   image_id = data.aws_ami.frontend-ami.id
   instance_type = "t2.micro"
   key_name = "devops"
@@ -31,7 +31,7 @@ resource "aws_autoscaling_group" "asg" {
   force_delete              = true
   vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS, count.index)]
   launch_template {
-    id                      = element(aws_launch_template.launch_template.id, count.index)
+    id                      = element(aws_launch_template.launch_template.*.id, count.index)
     version                 = "$Latest"
   }
   tag {
