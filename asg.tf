@@ -29,7 +29,7 @@ resource "aws_autoscaling_group" "asg" {
   health_check_type         = "ELB"
   desired_capacity          = 2
   force_delete              = true
-  vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS, count.index)]
+  vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET, count.index)]
   launch_template {
     id                      = element(aws_launch_template.launch_template.*.id, count.index)
     version                 = "$Latest"
