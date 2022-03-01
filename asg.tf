@@ -30,6 +30,7 @@ resource "aws_autoscaling_group" "asg" {
   desired_capacity          = 2
   force_delete              = true
   vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET, count.index)]
+  target_group_arns         = [aws_lb_target_group.frontend-lb.arn]
   launch_template {
     id                      = element(aws_launch_template.launch_template.*.id, count.index)
     version                 = "$Latest"
@@ -39,4 +40,12 @@ resource "aws_autoscaling_group" "asg" {
     value               = "${var.component}-asg-${var.availability-zones[count.index]}"
     propagate_at_launch = false
   }
+}
+
+
+resource "aws_lb_target_group" "frontend-lb" {
+  name     = "frontend-lb"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.terraform_remote_state.vpc.outputs.VPC_ID
 }
