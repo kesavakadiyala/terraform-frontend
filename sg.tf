@@ -1,6 +1,6 @@
 resource "aws_security_group" "allow-frontend-template-instance" {
-  name        = "allow-frontend-instance"
-  description = "allow-frontend-instance"
+  name        = "allow-frontend-template-instance"
+  description = "allow-frontend-template-instance"
   vpc_id      = data.terraform_remote_state.vpc.outputs.VPC_ID
 
   ingress {
@@ -27,6 +27,6 @@ resource "aws_security_group" "allow-frontend-template-instance" {
   }
 
   tags = {
-    Name = "allow-frontend-instance"
+    Name = "allow-frontend-template-instance"
   }
 }
