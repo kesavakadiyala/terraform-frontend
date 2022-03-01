@@ -21,7 +21,7 @@ resource "aws_launch_template" "launch_template" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNETS)
+  count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET)
   name                      = "frontend"
   max_size                  = 2
   min_size                  = 2
