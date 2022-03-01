@@ -24,10 +24,10 @@ resource "aws_autoscaling_group" "asg" {
   count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET)
   name                      = "${var.component}-asg-${var.availability-zones[count.index]}"
   max_size                  = 2
-  min_size                  = 2
+  min_size                  = 1
   health_check_grace_period = 300
   health_check_type         = "ELB"
-  desired_capacity          = 2
+  desired_capacity          = 1
   force_delete              = true
   vpc_zone_identifier       = [element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET, count.index)]
   target_group_arns         = [aws_lb_target_group.frontend-lb-target-group.arn]
