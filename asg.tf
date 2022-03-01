@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   count = length(var.availability-zones)
-  name = var.component
+  name = "${var.component}-${var.availability-zones[count.index]}"
   image_id = data.aws_ami.frontend-ami.id
   instance_type = "t2.micro"
   key_name = "devops"
