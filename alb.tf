@@ -22,12 +22,3 @@ resource "aws_lb_listener" "backend" {
     }
   }
 }
-
-resource "aws_route53_record" "backend-alb" {
-  count               = length(var.BACKEND_COMPONENTS)
-  name                = "${element(var.BACKEND_COMPONENTS, count.index)}-${var.ENV}"
-  type                = "CNAME"
-  zone_id             = data.terraform_remote_state.vpc.outputs.HOSTED_ZONE_ID
-  ttl                 = "300"
-  records             = [data.terraform_remote_state.vpc.outputs.BACKEND_ALB_DNSNAME]
-}

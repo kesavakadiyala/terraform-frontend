@@ -4,4 +4,3 @@ ENV             = "dev"
 availability-zones = ["us-east-1a", "us-east-1b"]
 INSTANCE_TYPE      = "t2.micro"
 KEYPAIR_NAME       = "devops"
-BACKEND_COMPONENTS = ["catalogue","cart","user","shipping","payment"]
