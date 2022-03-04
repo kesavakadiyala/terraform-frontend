@@ -4,7 +4,7 @@ resource "aws_lb_listener" "frontend-lb-listener" {
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.frontend-lb-target-group.arn
+    target_group_arn = data.terraform_remote_state.vpc.outputs.FRONTEND_ALB_ARN
   }
 }
 

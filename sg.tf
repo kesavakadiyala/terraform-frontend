@@ -8,7 +8,7 @@ resource "aws_security_group" "allow-frontend-template-instance" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.vpc.outputs.PRIVATE_CIDR[0],data.terraform_remote_state.vpc.outputs.PRIVATE_CIDR[1]]
+    cidr_blocks = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
   }
 
   ingress {
@@ -16,7 +16,7 @@ resource "aws_security_group" "allow-frontend-template-instance" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.vpc.outputs.PRIVATE_CIDR[0],data.terraform_remote_state.vpc.outputs.PRIVATE_CIDR[1]]
+    cidr_blocks = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
   }
 
   egress {

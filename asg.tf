@@ -5,6 +5,7 @@ resource "aws_launch_template" "launch_template" {
   instance_type = var.INSTANCE_TYPE
   key_name = var.KEYPAIR_NAME
   vpc_security_group_ids = [aws_security_group.allow-frontend-template-instance.id]
+  subnet_id      = element(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET, count.index)
   monitoring {
     enabled = true
   }
