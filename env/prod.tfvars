@@ -5,3 +5,4 @@ availability-zones = ["us-east-1a", "us-east-1b"]
 INSTANCE_TYPE      = "t3.small"
 KEYPAIR_NAME       = "devops"
 component          = "frontend"
+BACKEND_COMPONENTS = ["catalogue","cart","user","shipping","payment"]
