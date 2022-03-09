@@ -22,7 +22,7 @@ resource "aws_launch_template" "launch_template" {
 
 resource "aws_autoscaling_group" "asg" {
   count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET)
-  name                      = "${var.component}--${var.ENV}-asg-${var.availability-zones[count.index]}"
+  name                      = "${var.component}-${var.ENV}-asg-${var.availability-zones[count.index]}"
   max_size                  = 2
   min_size                  = 1
   health_check_grace_period = 300
