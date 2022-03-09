@@ -56,7 +56,7 @@ resource "aws_autoscaling_policy" "scale_up" {
   adjustment_type        = "PercentChangeInCapacity"
   policy_type            = "TargetTrackingScaling"
   estimated_instance_warmup                = "300"
-  autoscaling_group_name = aws_autoscaling_group.asg.name[count.index]
+  autoscaling_group_name = aws_autoscaling_group.asg[count.index].name
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
