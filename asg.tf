@@ -51,13 +51,11 @@ resource "aws_lb_target_group" "frontend-lb-target-group" {
 }
 
 resource "aws_autoscaling_policy" "scale_up" {
-  depends_on = [aws_autoscaling_group.asg]
-  count = length(aws_autoscaling_group.asg)
   name                   = "scaleup"
   adjustment_type        = "PercentChangeInCapacity"
   policy_type            = "TargetTrackingScaling"
   estimated_instance_warmup                = "300"
-  autoscaling_group_name = elements(aws_autoscaling_group.asg.name, count.index)
+  autoscaling_group_name = aws_autoscaling_group.asg.*.name
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
