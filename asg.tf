@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   count = length(var.availability-zones)
-  name = "${var.component}-template-${var.availability-zones[count.index]}"
+  name = "${var.component}-${var.ENV}-template-${var.availability-zones[count.index]}"
   image_id = data.aws_ami.frontend-ami.id
   instance_type = var.INSTANCE_TYPE
   key_name = var.KEYPAIR_NAME
@@ -22,7 +22,7 @@ resource "aws_launch_template" "launch_template" {
 
 resource "aws_autoscaling_group" "asg" {
   count                     = length(data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET)
-  name                      = "${var.component}-asg-${var.availability-zones[count.index]}"
+  name                      = "${var.component}--${var.ENV}-asg-${var.availability-zones[count.index]}"
   max_size                  = 2
   min_size                  = 1
   health_check_grace_period = 300
@@ -37,14 +37,14 @@ resource "aws_autoscaling_group" "asg" {
   }
   tag {
     key                 = "Name"
-    value               = "${var.component}-asg-${var.availability-zones[count.index]}"
+    value               = "${var.component}-${var.ENV}-asg-${var.availability-zones[count.index]}"
     propagate_at_launch = false
   }
 }
 
 
 resource "aws_lb_target_group" "frontend-lb-target-group" {
-  name     = "frontend-lb-target-group"
+  name     = "${var.component}-${var.ENV}-lb-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.terraform_remote_state.vpc.outputs.VPC_ID
