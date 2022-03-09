@@ -51,6 +51,7 @@ resource "aws_lb_target_group" "frontend-lb-target-group" {
 }
 
 resource "aws_autoscaling_policy" "scale_up" {
+  depends_on = [aws_autoscaling_group.asg]
   count = length(aws_autoscaling_group.asg)
   name                   = "scaleup"
   adjustment_type        = "PercentChangeInCapacity"
