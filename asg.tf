@@ -49,3 +49,17 @@ resource "aws_lb_target_group" "frontend-lb-target-group" {
   protocol = "HTTP"
   vpc_id   = data.terraform_remote_state.vpc.outputs.VPC_ID
 }
+
+resource "aws_autoscaling_policy" "scale_up" {
+  name                   = "scaleup"
+  adjustment_type        = "PercentChangeInCapacity"
+  policy_type            = "TargetTrackingScaling"
+  estimated_instance_warmup                = "300"
+  autoscaling_group_name = aws_autoscaling_group.asg.name
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 80.0
+  }
+}
