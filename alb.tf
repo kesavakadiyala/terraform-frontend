@@ -52,21 +52,3 @@ resource "aws_lb_listener" "backend-prod" {
     }
   }
 }
-
-resource "aws_route53_record" "backend-route53-dev" {
-  count               = length(var.BACKEND_COMPONENTS) == 5 && var.ENV == "dev" ? 5 : 0
-  name                = "${element(var.BACKEND_COMPONENTS, count.index)}-${var.ENV}"
-  type                = "CNAME"
-  zone_id             = data.terraform_remote_state.vpc.outputs.HOSTED_ZONE_ID
-  ttl                 = "300"
-  records             = data.terraform_remote_state.vpc.outputs.BACKEND_ALB_DNS_NAME-DEV
-}
-
-resource "aws_route53_record" "backend-route53-prod" {
-  count               = length(var.BACKEND_COMPONENTS) == 5 && var.ENV == "prod" ? 5 : 0
-  name                = "${element(var.BACKEND_COMPONENTS, count.index)}-${var.ENV}"
-  type                = "CNAME"
-  zone_id             = data.terraform_remote_state.vpc.outputs.HOSTED_ZONE_ID
-  ttl                 = "300"
-  records             = data.terraform_remote_state.vpc.outputs.BACKEND_ALB_DNS_NAME-PROD
-}
